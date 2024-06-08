@@ -5,7 +5,11 @@ import "./card.css";
 
 const Card = ({ item }) => {
   if (!item) {
-    return <div><Circularprogress /></div>;
+    return (
+      <div>
+        <Circularprogress />
+      </div>
+    );
   }
 
   return (
@@ -25,8 +29,10 @@ const FlagCard = () => {
         const countryData = await axios.get(
           "https://restcountries.com/v3.1/all"
         );
-        setData(countryData.data);
-        console.log(countryData.data);
+        if (countryData.status === 200) {
+          setData(countryData.data);
+          console.log(countryData.data);
+        }
       } catch (error) {
         console.log("unable to fetch data", error);
       }
@@ -35,15 +41,15 @@ const FlagCard = () => {
     fetchData();
   }, []);
 
-  if(!data){
-    <Circularprogress/>
+  if (!data) {
+    <Circularprogress />;
   }
 
   return (
     <div className="container">
       <div className="cards-container">
-        {data.map((item) => (
-          <Card key={item.tld} item={item} />
+        {data.map((item,index) => (
+          <Card key={index} item={item} />
         ))}
       </div>
     </div>
